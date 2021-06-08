@@ -1,0 +1,175 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Ask Mate 2 - {{ question.title }}
+{% endblock %}
+
+{% block logged_in %}
+    {% if logged_in %}
+        <h3><a href="{{ url_for('logout') }}">Logout</a></h3>
+        <h3><a href="{{ url_for('user_page', user_id=user_id) }}">Account</a></h3>
+    {% else %}
+        <h3><a href="{{ url_for('registration') }}">Register</a></h3>
+        <h3><a href="{{ url_for('login') }}">Login</a></h3>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <div id="title">
+        <h1>{{ question.title }}</h1>
+        {% for user in users %}
+                {% if user.id == question.user_id %}
+                    <h4>Asked by <a href="{{ url_for('user_page', user_id=user.id) }}">{{ user.username }}</a></h4>
+                {% endif %}
+        {% endfor %}
+
+        <table>
+            <table>
+                <td>tags:</td>
+                    {% for element in tag_id %}
+                        {% if question.id == element.question_id %}
+                                {% for tag in tags %}
+                                    {% if tag.id == element.tag_id %}
+                                        <td><a href="{{ url_for('selected_tag', tag_id=tag.id) }}">{{ tag.name }}</a></td>
+                                        <td><a href="{{ url_for('delete_tag', id=question.id, t_id=tag.id) }}"><img src="{{ url_for('static', filename='images/delete.png') }}" alt="thrash can" width="30"></a></td>
+                                    {% endif %}
+                                {% endfor %}
+                        {% endif %}
+                    {% endfor %}
+                <tr>
+                    <form action="{{ url_for('add_tag', id=question.id) }}" method="post" class="add-tag">
+                    <th><a href="{{ url_for('add_tag', id=question.id) }}"><button type="submit" class="button1">Add Tag</button></a></th>
+                    <th><select name="tag" id="tag">
+                        <option value="python">python</option>
+                        <option value="css">css</option>
+                        <option value="sql">sql</option>
+                    </select></th>
+            </form>
+            <a href="{{ url_for('edit_question', id=question.id) }}"><button class="button button1">Edit Question</button></a>
+            </tr>
+        </table>
+        <div class="flag">
+        <table>
+            <tr>
+            {% if question.accepted == true or accepted%}
+                <td><img src="{{ url_for('static', filename='/images/accepted.png') }}" alt="bookmark picture" width="60"></td>
+                {% if user_id == question.user_id %}
+                    <form action="{{ url_for('delete_flag', id=question.id) }}" method="post"><button class="button1">Delete flag</button></form>
+                {% endif %}
+            </tr>
+            {% else %}
+            <tr>
+                <div class="flag-question">
+                {% for user in users %}
+                    {% if user.id == question.user_id %}
+                        <form action="" method="post"><button type="submit" class="button1 flag-button">Flag question</button></form>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+            </tr>
+            <tr>
+                <td class="vote flag-question"><a href="{{ url_for('vote_up', id=question.id, user_id=question.user_id) }}"><i class="far fa-thumbs-up"></i></a>
+                <a href="{{ url_for('vote_down', id=question.id, user_id=question.user_id) }}"><i class="far fa-thumbs-down"></i></a></td></div>
+            </tr>
+        </table>
+        </div>
+    </div>
+
+    <div id="main-container">
+        {{ question.message }}
+        {% if has_picture %}
+            <img src="{{ url_for('static', filename='images/'+question['image']) }}" width="300" alt="pic">
+        {% endif %}
+    </div>
+
+    <h4>Comments</h4>
+
+    <table>
+        {% for comment in question_comments %}
+             <tr>
+                 <td>
+                 <td><small>{{ comment.submission_time }}</small></td>
+                 <td><small>{{ comment.message }}</small></td>
+             </tr>
+            <tr>
+                <td></td><td></td><td></td><td></td>
+                <td><a href={{ url_for('vote_up', id=question.id, user_id=user_id) }}><img
+                                    src="{{ url_for('static', filename='images/like.png') }}" alt="like" width="20"></a></td>
+                <td>{{ question['vote_number'] }}</td>
+                <td><a href={{ url_for('vote_down', id=question.id, user_id=user_id) }}><img
+                                    src="{{ url_for('static', filename='images/dislike.png') }}" alt="dislike" width="20"></a></td>
+                <td><a href="{{ url_for('edit_comment', id=question.id, comment_id=comment.id) }}"><button class="button-small">Edit Comment</button></a></td>
+                <td><a href="#" onclick="delete_comment({{ question.id}}, {{ comment.id }})"><img src="{{ url_for('static', filename='images/delete.png') }}" alt="thrash can" width="32"></a></td>
+                </tr>
+        {% endfor %}
+    </table>
+    <td><a href="{{ url_for('comment_question', id=question.id) }}"><button class="button button1">Comment Question</button></a></td>
+    <br><br>
+    <div id="title">
+        <h1>Answers</h1><hr>
+     <table>
+            <tr>
+                <th><a href={{ url_for('post_answer', id=question.id) }}><button class="button button1">Post answer</button></a></th>
+            </tr>
+     </table>
+    </div>
+
+    <!--ANSWERS-->
+    <div class="question-content">
+        {% for answer in answers %}
+             <table>
+              <tr>
+                <td bgcolor="#C6D0C6" style="text-align:center"><br><a href="{{ url_for('vote_up_answer', id=question.id, answer_id=answer.id, user_id=question.user_id) }}"><img
+                                        src="{{ url_for('static', filename='images/like.png') }}" alt="like" width="32"></a><br>
+                <h1>{{ answer['vote_number'] }}</h1>
+                <a href="{{ url_for('vote_down_answer', id=question.id, answer_id=answer.id, user_id=question.user_id) }}"><img
+                                        src="{{ url_for('static', filename='images/dislike.png') }}" alt="dislike" width="32"></a><br><br></td>
+                <td>{{ answer['message'] }}</td>
+
+              </tr>
+              <tr>
+                <td style="text-align:right"><small>Submitted:</small></td>
+                  <td><small>{{ answer['submission_time'] }}</small></td>
+                <tr>
+                  <td><a href="{{ url_for('comment_answer', id=question.id, answer_id=answer.id) }}"><button class="button1">Comment Answer</button></a></td>
+                  <td><a href="#" onclick="delete_answer({{ question.id }}, {{ answer.id }})"><button class="button1">Delete Answer</button></a></td>
+                </tr>
+                  <table>
+                    <td><h2>Comments</h2></td>
+                      {% for answer_comment in answer_comments %}
+                          <tr>
+                          {% if answer_comment.answer_id == answer.id %}
+                              <td>{{ answer_comment.submission_time }}</td>
+                              <td>{{ answer_comment.message }}</td>
+                              <td><a href="#" onclick="delete_comment({{ question.id}}, {{ answer_comment.id }})"><img src="{{ url_for('static', filename='images/delete.png') }}" alt="thrash can" width="32"></a></td>
+                          {% endif %}
+                          </tr>
+                        {% endfor %}
+                  </table>
+                  <td style="text-align:right"><a href="{{ url_for('edit_answer', id=question.id, answer_id=answer.id) }}"><button class="button button1">Edit Answer</button></a></td>
+
+              </tr>
+             <tr>
+
+             </tr>
+    <!--COMMENTS-->
+
+            </table><br><hr>
+        {% endfor %}
+    </div>
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    <script>
+        function delete_comment(id, comment_id){
+            if (confirm('Are you sure you want to delete the comment?')) {
+                window.location.href = "/comment/"+id+"/"+comment_id+"/delete";
+            }
+        }
+
+        function delete_answer(id, answer_id){
+            if (confirm('Are you sure you want to delete the answer?')) {
+                window.location.href = "/answer/delete/"+id+"/"+answer_id;
+            }
+        }
+    </script>
+
+{% endblock %}

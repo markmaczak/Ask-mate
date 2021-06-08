@@ -1,0 +1,39 @@
+{% extends 'layout.html' %}
+{% block title %}
+    Tags
+{% endblock %}
+
+{% block logged_in %}
+    {% if logged_in %}
+        <h3><a href="{{ url_for('logout') }}">Logout</a></h3>
+        <h3><a href="{{ url_for('user_page', user_id=user) }}">Account</a></h3>
+    {% else %}
+        <h3><a href="{{ url_for('registration') }}">Register</a></h3>
+        <h3><a href="{{ url_for('login') }}">Login</a></h3>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <h1>Tags</h1>
+
+            <table id="tag-table">
+                <thead>
+                {% for tag in tags %}
+                    <th class="tag-table-cell"><a href="{{ url_for('selected_tag', tag_id=tag.id) }}"><h1>{{ tag.name }}</h1></a>
+                        {% for count in question_count %}
+                            {% if tag.name == count.name %}
+                                <small>{{ count.count }} question asked</small></th>
+                            {% endif %}
+                        {% endfor %}
+                {% endfor %}
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>a multi-paradigm, dynamically typed, multipurpose programming language. It is designed to be quick to learn, understand, and use.</td>
+                        <td>a language for querying databases. Questions should include code examples, table structure, sample data, and a tag for the DBMS implementation.</td>
+                        <td>a representation style sheet language used for describing the look and formatting of HTML (HyperText Markup Language), XML (Extensible Markup Language) documents.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+{% endblock %}

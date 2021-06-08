@@ -1,0 +1,39 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Ask Mate 2 - {{ title }}
+{% endblock %}
+
+{% block content %}
+    <h1>Registration</h1>
+
+    <fieldset>
+        {{ form.hidden_tag() }}
+        <legend>Register</legend>
+            <form action="" method="post" enctype="multipart/form-data">
+                {{ form.email.label }}<br>
+                {{ form.email }}<br>
+
+                {{ form.username.label }}<br>
+                {{ form.username }}<br>
+
+                {{ form.password.label }}<br>
+                {{ form.password }}<br>
+
+                {{ form.confirm_password.label }}<br>
+                {{ form.confirm_password }}<br>
+
+
+                {{ form.first_name.label }}<br>
+                {{ form.first_name }}<br>
+
+                {{ form.last_name.label }}<br>
+                {{ form.last_name }}<br>
+
+                <label for="image">Select image</label><br>
+                <input type="file" name="image" class="button button1"/>
+
+                <button type="submit">Sign Up</button>
+            </form>
+    </fieldset>
+{% endblock %}

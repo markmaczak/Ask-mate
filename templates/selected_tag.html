@@ -1,0 +1,38 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Tag
+{% endblock %}
+
+{% block logged_in %}
+    {% if logged_in %}
+        <h3><a href="{{ url_for('logout') }}">Logout</a></h3>
+        <h3><a href="{{ url_for('user_page', user_id=user) }}">Account</a></h3>
+    {% else %}
+        <h3><a href="{{ url_for('registration') }}">Register</a></h3>
+        <h3><a href="{{ url_for('login') }}">Login</a></h3>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ tag.name }}</h1>
+    {% for cell in questions %}
+    <div id="main-container">
+        <div id="main-bar">
+            <h2>{{ cell["vote_number"] }}</h2>
+            <p>VOTES</p>
+            <h2>{{ cell["view_number"] }}</h2>
+            <p>VIEWS</p>
+            <a href={{ url_for('delete_question', id=cell['id']) }}><button class="button button1">Delete</button></a>
+        </div>
+        <div id="main-content">
+            <h2><a href={{ url_for('question', id=cell["id"]) }}>{{ cell.title }}</a></h2>
+            <p>{{ cell[ 'message'] }}</p>
+        </div>
+        <div id="main-footer">
+            <small>asked {{ cell[ 'submission_time'] }}</small>
+        </div>
+    </div><hr>
+    {% endfor %}
+ <br> <br> <br>
+{% endblock %}

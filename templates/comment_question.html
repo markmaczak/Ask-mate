@@ -1,0 +1,35 @@
+{% extends 'layout.html' %}
+
+{% block logged_in %}
+    {% if logged_in %}
+        <h3><a href="{{ url_for('logout') }}">Logout</a></h3>
+        <h3><a href="{{ url_for('user_page', user_id=user) }}">Account</a></h3>
+    {% else %}
+        <h3><a href="{{ url_for('registration') }}">Register</a></h3>
+        <h3><a href="{{ url_for('login') }}">Login</a></h3>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1 class="title">Comment Question</h1>
+    </div>
+
+     <div class="navbar">
+        <nav>
+            <table class="nav_table">
+                <tr>
+                    <th><a href={{ url_for('hello') }}><button>Main Page</button></a></th>
+                </tr>
+            </table>
+        </nav>
+    </div>
+
+        <form action="" method="post">
+            <fieldset>
+                <legend>Comment Answer</legend>
+                <textarea name="message" id="message" cols="30" rows="10"></textarea><br>
+                <button type="submit">Submit</button>
+            </fieldset>
+        </form>
+{% endblock %}

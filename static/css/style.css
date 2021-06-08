@@ -1,0 +1,183 @@
+body{
+    background-color: #f3f3f3;
+    color: #555;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    line-height: 1.6em;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+a{
+    text-decoration: none;
+    color: cornflowerblue;
+}
+
+a:hover{
+    color: firebrick;
+}
+
+footer{
+    background-color: lightgray;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    padding: 50px;
+}
+
+.navbar{
+    background-color: cornflowerblue;
+}
+
+textarea{
+    width: 600px;
+	height: 120px;
+	border: 3px solid #cccccc;
+	padding: 5px;
+	font-family: Tahoma, sans-serif;
+	background-position: bottom right;
+	background-repeat: no-repeat;
+    font-size: 16px;
+    margin-left: 40px;
+    margin-top: 10px;
+}
+
+select{
+    background-color: #dddddd;
+    border-radius: 10px;
+    display: inline-block;
+    padding: 0.35em 1.2em;
+    border:0.1em solid #FFFFFF;
+    margin:0 0.3em 0.3em 0;
+    box-sizing: border-box;
+    text-decoration:none;
+    font-family:'Roboto',sans-serif;
+    font-weight:300;
+    text-align:center;
+    transition: all 0.2s;
+}
+
+select:hover{
+    color:#000000;
+    background-color:#FFFFFF;
+}
+
+.nav_table{
+    border-collapse: separate;
+    font-size: 0.9em;
+    border-spacing: 40px 10px;
+}
+
+h1{
+    padding: 10px;
+    color: white;
+    display: inline-block;
+    text-indent: 30px;
+}
+
+button{
+    background-color: #dddddd;
+    border-radius: 10px;
+    display: inline-block;
+    padding: 0.35em 1.2em;
+    border:0.1em solid #FFFFFF;
+    margin:0 0.3em 0.3em 0;
+    box-sizing: border-box;
+    text-decoration:none;
+    font-family:'Roboto',sans-serif;
+    font-weight:300;
+    text-align:center;
+    transition: all 0.2s;
+}
+
+button:hover{
+    color:#000000;
+    background-color:#FFFFFF;
+}
+
+.container{
+    background-color: #009879;
+    background-image: url('Downloads');
+}
+
+a{
+    text-decoration: none;
+    color: cornflowerblue;
+}
+
+a:hover{
+    color: firebrick;
+}
+
+.answer{
+    color: grey;
+    font-family: Tahoma, sans-serif;
+}
+
+.content-table{
+    border-collapse: collapse;
+    margin: 40px;
+    font-size: 0.9em;
+    min-width: 1500px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+.content-table thead tr{
+    background-color: #009879;
+    color: #fff;
+    font-weight: bold;
+}
+
+.content-table th,
+.content-table td{
+    padding: 12px 15px;
+}
+
+.content-table tbody tr:last-of-type{
+    border-bottom: 2px solid #009879;
+}
+
+.content-table tbody tr{
+    border-bottom: 1px solid #dddddd;
+}
+
+.content-table tbody tr:nth-of-type(even){
+    background-color: lightgray;
+}
+
+.question_votes{
+    margin-left: 40px;
+}
+
+.message{
+    margin: 40px;
+}
+
+.textarea-container{
+    margin-top: 30px;
+}
+
+.input{
+    margin-left: 40px;
+    font-weight: bolder;
+}
+
+.vote{
+    font-weight: bold;
+}
+
+.title{
+    font-family: Tahoma, sans-serif;
+}
+
+#tag-table{
+    border-radius: 5px;
+    background-color: #555555;
+    margin-bottom: 30px;
+    border: 1px black;
+}
+

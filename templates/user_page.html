@@ -1,0 +1,191 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Ask Mate - {{ title }}
+{% endblock %}
+
+{% block logged_in %}
+    {% if logged_in %}
+        <h3><a href="{{ url_for('logout') }}">Logout</a></h3>
+    {% else %}
+        <h3><a href="{{ url_for('registration') }}">Register</a></h3>
+        <h3><a href="{{ url_for('login') }}">Login</a></h3>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <div class="account__header">
+        <table>
+            <tr>
+                <td><img src="{{ url_for('static', filename='images/' + user.image) }}" alt="default profile picture" width="100"></td>
+                <td><h1>{{ user.username }}</h1></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><b>Name: </b>{{ user.first_name }} {{ user.last_name }}</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><b>Member since: </b>{{ user.created }}</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><b>Reputation: </b> {{ user.reputation }}</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="nav">
+        <ul>
+            <li onclick="tabs(0)" class="user-questions-active"><b>Questions</b></li>
+            <li onclick="tabs(1)" class="user-answers"><b>Answers</b></li>
+            <li onclick="tabs(2)" class="user-comments"><b>Comments</b></li>
+        </ul>
+    </div>
+
+
+    <div class="profile-body">
+        <div class="tab">
+            <h2>Questions by {{ user.username }}</h2><hr>
+            {% for question in questions %}
+                <div>
+                    <h2><a href={{ url_for('question', id=question["id"]) }}>{{ question.title }}</a></h2>
+                    <p>{{ question[ 'message'] }}</p>
+                </div>
+                <div id="main-footer">
+                    <small>asked {{ question[ 'submission_time'] }}</small><br>
+                </div><hr>
+            {% endfor %}
+        </div>
+
+
+        <div class="tab">
+            <h2>Answers by {{ user.username }}</h2><hr>
+            {% for answer in answers %}
+                <div>
+                    <p>{{ answer[ 'message'] }}</p>
+                </div>
+                <div id="main-footer">
+                    <small>asked {{ answer[ 'submission_time'] }}</small><br>
+                </div><hr>
+            {% endfor %}
+        </div>
+
+        <div class="tab">
+            <h2>Comments by {{ user.username }}</h2><hr>
+             {% for comment in comments %}
+                 <div>
+                    <p>{{ comment[ 'message'] }}</p>
+                </div>
+                <div id="main-footer">
+                    <small>asked {{ comment[ 'submission_time'] }}</small><br>
+                </div><hr>
+            {% endfor %}
+        </div>
+    </div>
+
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="/static/main.js"></script>
+
+
+
+
+
+
+
+
+
+    <!--
+
+    <h3>Questions by {{ user.username }}</h3>
+    {% for question in questions %}
+    <div id="main-container">
+        <div id="main-bar">
+            <h2>{{ question["vote_number"] }}</h2>
+            <p>LIKES</p>
+            <h2>{{ question["view_number"] }}</h2>
+            <p>VIEWS</p>
+            {% if user.id == current_user %}
+                <a href={{ url_for('delete_question', id=question['id']) }}><button class="button button1">Delete</button></a>
+            {% endif %}
+        </div>
+        <div id="main-content">
+            <h2><a href={{ url_for('question', id=question["id"]) }}>{{ question.title }}</a></h2>
+            <p>{{ question[ 'message'] }}</p>
+            <table>
+               {% for question_tag in question_tags %}
+                    {% if question.id == question_tag.question_id %}
+                        {% for tag in tags %}
+                            {% if tag.id == question_tag.tag_id %}
+                                <a href="{{ url_for('selected_tag', tag_id=tag.id) }}">{{ tag.name }}</a>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+               {% endfor %}
+            </table>
+        </div>
+        <div id="main-footer">
+            <small>asked {{ question[ 'submission_time'] }}</small><br>
+            {% for user in users %}
+                {% if user.id == question.user_id %}
+                    <img src="{{ url_for('static', filename='images/' + user.image) }}" alt="default profile picture" width="50">
+                    <small>{{ user.username }}</small>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div><hr>
+    {% endfor %}
+ <br> <br> <br>
+
+
+
+    <h3>Answer by {{ user.username }}</h3>
+    {% for answer in answers %}
+    <div id="main-container">
+        <div id="main-bar">
+            <h2>{{ answer["vote_number"] }}</h2>
+            <p>LIKES</p>
+        </div>
+        <div id="main-content">
+            <p>{{ answer[ 'message'] }}</p>
+        </div>
+        <div id="main-footer">
+            <small>asked {{ answer[ 'submission_time'] }}</small><br>
+        </div>
+    </div><hr>
+    {% endfor %}
+ <br> <br> <br>
+
+    <h3>Comments by {{ user.username }}</h3>
+    {% for comment in comments %}
+    <div id="main-container">
+        <div id="main-bar">
+            <h2>{{ comment.edited_count }}</h2>
+            <p>EDITED</p>
+        </div>
+        <div id="main-content">
+            <p>{{ comment[ 'message'] }}</p>
+        </div>
+        <div id="main-footer">
+            <small>asked {{ comment[ 'submission_time'] }}</small><br>
+        </div>
+    </div><hr>
+    {% endfor %}
+ <br><br><br><br><br>
+
+    -->
+    <script>
+        function delete_comment(id, comment_id){
+            if (confirm('Are you sure you want to delete the comment?')) {
+                window.location.href = "/comment/"+id+"/"+comment_id+"/delete";
+            }
+        }
+
+        function delete_answer(id, answer_id){
+            if (confirm('Are you sure you want to delete the answer?')) {
+                window.location.href = "/answer/delete/"+id+"/"+answer_id;
+            }
+        }
+    </script>
+{% endblock %}

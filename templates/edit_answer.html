@@ -1,0 +1,25 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Ask Mate 2
+{% endblock %}
+
+{% block logged_in %}
+    {% if logged_in %}
+        <h3><a href="{{ url_for('logout') }}">Logout</a></h3>
+        <h3><a href="{{ url_for('user_page', user_id=user) }}">Account</a></h3>
+    {% else %}
+        <h3><a href="{{ url_for('registration') }}">Register</a></h3>
+        <h3><a href="{{ url_for('login') }}">Login</a></h3>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <h1>Edit Answer</h1>
+
+    <form action="" method="post">
+        <label for="edit_answer">Edit Anser</label><br>
+        <textarea name="edit_answer" id="edit_answer" cols="30" rows="10" placeholder="{{ old_answer.message }}"></textarea><br>
+        <button type="submit">Submit</button>
+    </form>
+{% endblock %}

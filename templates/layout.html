@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
+</head>
+<body>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                {{ message }}
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <div id="header">
+        <table>
+        <td id="main-title"><h1><a href="{{ url_for('hello') }}">ASK MATE</a></h1></td>
+            <div class="search-container">
+                <form action="{{ url_for('hello') }}" method="post">
+                    <td><textarea name="searchbar" id="searchbar" class="button button1" cols="45" rows="1" placeholder="Search..." class="searchbar"></textarea></td>
+                    <td><button type="submit" class="button button1">Search</button></td>
+                </form>
+                <td class="log-in">{% block logged_in %}{% endblock %}</td>
+            </div>
+        </table>
+    </div>
+
+    <div id="content">
+        <div id="main">
+        {% block content %}
+        {% endblock %}
+        </div>
+
+        <div id="navbar">
+            <ul><a class="button-navbar" href={{ url_for("index") }}>Home</a></ul>
+            <ul><a class="button-navbar" href={{ url_for("hello") }}>Questions</a></ul>
+            <hr>
+            <ul><a class="button-navbar" href={{ url_for('add_question') }}>Add Question</a></ul>
+            <ul><a class="button-navbar" href={{ url_for("tags") }}>Tags</a></ul>
+        </div>
+    </div>
+
+    <div id="footer">
+        <p>Ⓒ M&M's</p>
+    </div>
+</body>
+</html>

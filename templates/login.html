@@ -1,0 +1,24 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Ask Mate - {{ title }}
+{% endblock %}
+
+{% block content %}
+    <h1>Login</h1>
+
+        <fieldset>
+            {{ form.hidden_tag() }}
+            <form action="" method="post">
+                <legend>Login</legend>
+                {{ form.email.label }}<br>
+                {{ form.email }}<br>
+
+                {{ form.password.label }}<br>
+                {{ form.password }}<br>
+
+                <button type="submit">Login</button>
+            </form>
+        </fieldset>
+
+{% endblock %}

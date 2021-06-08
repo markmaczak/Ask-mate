@@ -1,0 +1,48 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+Edit Question
+{% endblock %}
+
+{% block logged_in %}
+    {% if logged_in %}
+        <h3><a href="{{ url_for('logout') }}">Logout</a></h3>
+        <h3><a href="{{ url_for('user_page', user_id=user) }}">Account</a></h3>
+    {% else %}
+        <h3><a href="{{ url_for('registration') }}">Register</a></h3>
+        <h3><a href="{{ url_for('login') }}">Login</a></h3>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <header>
+        <div class="container">
+            <h1>Edit question</h1>
+        </div>
+    </header>
+    <div class="navbar">
+        <nav>
+            <table class="nav_table">
+                <tr>
+                    <th><a href={{ url_for('hello') }}><button>Main Page</button></a></th>
+                    <th><a href="{{ url_for('question', id=question['id']) }}"><button>Back</button></a></th>
+                </tr>
+            </table>
+        </nav>
+    </div>
+    <div class="textarea-container">
+    <form action="{{ url_for('edit_question', id=question.id) }}" method="post" enctype="multipart/form-data">
+        <label for="title" class="input">Title</label><br>
+        <textarea name="title" id="title" cols="30" rows="5">{{ question.title }}</textarea>
+        <p></p>
+        <label for="message" class="input">Message</label><br>
+        <textarea name="message" id="message" cols="70" rows="10">{{ question.message }}</textarea>
+        <p></p>
+        <label for="image" class="input">Select image</label><br>
+        <input type="file" name="image" class="input"/>
+        <p></p>
+        <button type="submit" class="input">Submit</button>
+    </form>
+    </div>
+    <p></p>
+{% endblock %}

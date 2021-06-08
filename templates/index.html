@@ -1,0 +1,71 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Ask Mate - Home
+{% endblock %}
+
+{% block logged_in %}
+    {% if logged_in %}
+        <h3><a href="{{ url_for('logout') }}">Logout</a></h3>
+        <h3><a href="{{ url_for('user_page', user_id=user) }}">Account</a></h3>
+    {% else %}
+        <h3><a href="{{ url_for('registration') }}">Register</a></h3>
+        <h3><a href="{{ url_for('login') }}">Login</a></h3>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <div id="title">
+            <h1>Latest</h1><hr>
+                <form action="" method="post">
+                    <select class="button button1" name="sort" id="sort">
+                        <option value="submission_time">Submission</option>
+                        <option value="title">Title</option>
+                        <option value="vote_number">Vote number</option>
+                        <option value="view_number">View number</option>
+                        <option value="message">Message</option>
+                    </select>
+                    <button class="button button1" type="submit">SORT</button>
+                </form>
+        </div>
+
+    {% for cell in latest_questions %}
+    <div id="main-container">
+        <div id="main-bar">
+            <h2>{{ cell["vote_number"] }}</h2>
+            <p>VOTES</p>
+            <h2>{{ cell["view_number"] }}</h2>
+            <p>VIEWS</p>
+            {% if cell.user_id == user %}
+                <a href={{ url_for('delete_question', id=cell['id']) }}><button class="button button1">Delete</button></a>
+            {% endif %}
+        </div>
+        <div id="main-content">
+            <h2><a href={{ url_for('question', id=cell["id"]) }}>{{ cell.title }}</a></h2>
+            <p>{{ cell[ 'message'] }}</p>
+            <table>
+                {% for question_tag in question_tags %}
+                    {% if cell.id == question_tag.question_id %}
+                        {% for tag in tags %}
+                            {% if tag.id == question_tag.tag_id %}
+                                <a href="{{ url_for('selected_tag', tag_id=tag.id) }}">{{ tag.name }}</a>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+               {% endfor %}
+            </table>
+        </div>
+        <div id="main-footer">
+            <small>asked {{ cell[ 'submission_time'] }}</small><br>
+            {% for user in users %}
+                {% if user.id == cell.user_id %}
+                    <img src="{{ url_for('static', filename='images/' + user.image) }}" alt="default profile picture" width="50">
+                    <small>{{ user.username }}</small><br>
+                    <small>reputation {{ user.reputation }}</small>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div><hr>
+    {% endfor %}
+ <br> <br> <br>
+{% endblock %}
